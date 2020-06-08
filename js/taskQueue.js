@@ -2,9 +2,9 @@
 Used to throttle the number of concurrent rest request spawned but the DTP Reporter.
 Max allowed number of active rest requests is identified in the dtp_report.js
  */
-"use strict";
+// "use strict";
 
-module.exports = class TaskQueue {
+class TaskQueue {
   constructor (concurrency) {
     this.concurrency = concurrency;
     this.running = 0;
