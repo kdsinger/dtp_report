@@ -1,6 +1,6 @@
 /*
 Used to throttle the number of concurrent rest request spawned but the DTP Reporter.
-Max allowed number of active rest requests is identified in the dtp_report.js
+Max allowed number of active rest requests is identified in the index.js
  */
 // "use strict";
 
