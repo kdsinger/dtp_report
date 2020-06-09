@@ -1,12 +1,8 @@
 "use strict";
 
 function loadDoc() {
+  document.getElementById("hello_demo").innerText = test.helloName({name:'Detailed Test Procedures'}).toString();
   let restRequestConcurrentQueue = new TaskQueue(1);
-  let rest_urls = ["http://www.google.com",
-    "https://www.google.com/calendar?tab=wc",
-    "https://www.google.com",
-    "http://www.google.com/finance?tab=we",
-    "https://www.google.com/intl/en/about/products?tab=wh"];
   let txt = "";
   $(document).ready(function () {
     $.ajax({
@@ -49,19 +45,20 @@ function loadDoc() {
               console.log(err);
               return;
             }
-            if(++completed === rest_urls.length && !hasErrors) {
+            if(++completed === rest_data.issues.length && !hasErrors) {
             }
             done()
           });
         });
       });
       txt += "</tbody></table>"
-      document.getElementById("demo").innerHTML = txt;
+      document.getElementById("dtp_results").innerHTML = txt;
     });
   });
 }
 
 function download(url, txt, callback) {
+  let restRequestConcurrentQueue = new TaskQueue(1);
   console.log(`Downloading ${url.id}`);
   $.ajax({
     url: `http://localhost:2990/jira/rest/zapi/latest/execution?issueId=${url.id}`,
@@ -74,6 +71,28 @@ function download(url, txt, callback) {
       console.log(`Top level execution status is ${zapi_data.status[execution.executionStatus].name} for test ${execution.issueKey}`);
 
     });
+
+
+    // Identify the number of completed rest requests
+    let completed = 0, hasErrors = false;
+    zapi_data.executions.forEach(execution => {
+      // Put each rest request on the queue
+      restRequestConcurrentQueue.pushTask(done => {
+        // Download the rest data
+        download_steps(execution, txt,err => {
+          if(err) {
+            hasErrors = true;
+            console.log(err);
+            return;
+          }
+          if(++completed === zapi_data.executions.length && !hasErrors) {
+          }
+          done()
+        });
+      });
+    });
+
+
     // txt += "<tr>" +
     //     "<td>" + zapi_data.issues[i].id + "</td>" +
     //     "<td>" + zapi_data.issues[i].key + "</td>";
@@ -85,13 +104,13 @@ function download(url, txt, callback) {
 function download_steps(url, txt, callback) {
   console.log(`Downloading Step Data${url.id}`);
   $.ajax({
-    url: `http://localhost:2990/jira/rest/zapi/latest/execution?issueId=${url.id}`,
+    url: `http://localhost:2990/jira/rest/zapi/latest/stepResult?executionId=${url.id}`,
     dataType: "json",
     async: true
   }).then(function (zapi_data) {
     console.log(`Downloaded and saved: ${url}`);
     console.log(`ZAPI data ${zapi_data}`)
-    zapi_data.executions.forEach(execution => {
+    zapi_data.forEach(execution => {
       console.log(execution.id);
     });
     return callback();

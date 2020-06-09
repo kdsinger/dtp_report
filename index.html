@@ -21,44 +21,45 @@
   <link rel="stylesheet" type="text/css" href="css/dtp_report.css">
 
   <meta name="theme-color" content="#fafafa">
-<!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
-<!--  <script src="js/jquery-3.5.1.min.js"></script>-->
-<!--  <script src="js/dtp_report.js"></script>-->
 
+<!--  JQuery for Ajax connections (REST API)-->
   <script src="js/jquery-3.5.1.min.js"></script>
-  <script src="js/taskQueue.js"></script>
-  <script src="js/kev_class.js"></script>
-  <script src="js/index.js"></script>
-<!--  <script src="js/dtp_report_complete.js"></script>-->
-<!--  <script src="js/ajax_test.js"></script>-->
-<!--  <script src="js/test_code.js"></script>-->
 
+<!--  Google Closure Library to support closure html templates (soy templates)
+      This Requires the following projects to be include into the html project
+      1. https://github.com/google/closure-library.git
+         a. include required base.js library
+      2. https://github.com/google/closure-templates.git
+         a. include the required
+            1. closure-templates/javascript/checks.js
+            2. closure-templates/javascript/soyutils_usegoog.js
+-->
+  <script src="closure-library/closure/goog/base.js"></script>
+  <script src="closure-templates/javascript/checks.js"></script>
+  <script src="closure-templates/javascript/soyutils_usegoog.js"></script>
+
+  <script src="js/hello.soy.js"></script>
+  <script src="js/taskQueue.js"></script>
+  <script src="js/index.js"></script>
 </head>
 
 <body>
 
   <!-- Add your site or application content here -->
-  <p>Hello Kevin!</p>
+<!--  <p>Hello Kevin!</p>-->
+<!--  <script src="js/hello_world.js"></script>-->
   <div id="demo2">
     <button type="button" onclick="loadDoc()">Test Data</button>
   </div>
-  <p id="demo"></p>
+  <p id="dtp_results"></p>
+  <p id="hello_demo"></p>
   <script src="js/vendor/modernizr-3.11.2.min.js"></script>
   <script src="js/plugins.js"></script>
   <script src="js/main.js"></script>
 
-  <div class="trigger">Trigger</div>
   <div class="result"></div>
   <div class="log"></div>
 
-<!--  <a>jQuery</a>-->
-
-  <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
-<!--  <script>-->
-<!--    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;-->
-<!--    ga('create', 'UA-XXXXX-Y', 'auto'); ga('set', 'anonymizeIp', true); ga('set', 'transport', 'beacon'); ga('send', 'pageview')-->
-<!--  </script>-->
-<!--  <script src="https://www.google-analytics.com/analytics.js" async></script>-->
 </body>
 
 </html>
