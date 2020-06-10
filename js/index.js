@@ -57,6 +57,20 @@ function loadDoc() {
   });
 }
 
+function populate_web_item(){
+  $(document).ready(function () {
+    $.ajax({
+      url: "http://localhost:2990/jira/rest/api/latest/search?jql=project=ZEP AND issuetype=Test",
+      dataType: "json"
+    }).then(function (rest_data) {
+      console.log(`This is the rest data object ${rest_data}`);
+      let issues = {issues: [{ id: 1, key: "one", joe: "j1"}, {id: 2, key: "two", joe: "j2"},
+          { id: 3, key: "three", joe: "j3"}, {id: 4, key: "four", joe: "j4"}]};
+      document.getElementById("web_item").innerHTML = DTP.Results.IssueList(rest_data).toString();
+    });
+  });
+}
+
 function download(url, txt, callback) {
   let restRequestConcurrentQueue = new TaskQueue(1);
   console.log(`Downloading ${url.id}`);

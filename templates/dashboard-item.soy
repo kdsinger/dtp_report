@@ -1,0 +1,31 @@
+{namespace DTP.Results}
+
+/**
+*/
+{template .IssueList}
+    {@param issues: list<[key:string, id:int]>}
+    <table class="aui">
+        <thead>
+        <tr>
+            //               <th id="basic-number"></th>
+            <th id="basic-fname">Issue key</th>
+            <th id="basic-lname">Issue ID</th>
+        </tr>
+        </thead>
+        <tbody>
+            {for $issue in $issues}
+            <tr>
+                //                        <td headers="basic-number"><img src="{$issue.fields.issuetype.iconUrl}"/></td>
+                //                        <td headers="basic-fname">{$issue.executionStatus}</td>
+                <td headers="basic-fname">{$issue.key}</td>
+                <td headers="basic-lname">{$issue.id}</td>
+            </tr>
+            {/for}
+        </tbody>
+    </table>
+    <div class="buttons-container">
+        <div class="buttons">
+            <input class="button submit" type="submit" value="Refresh">
+        </div>
+    </div>
+{/template}
