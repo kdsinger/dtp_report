@@ -9,30 +9,6 @@ function loadDoc() {
       url: "http://localhost:2990/jira/rest/api/latest/search?jql=project=ZEP AND issuetype=Test",
       dataType: "json"
     }).then(function (rest_data) {
-      txt = "<table border='1'>" +
-          "<thead><tr>" +
-          "<th id=\"basic-fname\">Capability</th>" +
-          "<th id=\"basic-lname\">Prodcedure</th>" +
-          "<th id=\"basic-cname\">Total Steps</th>" +
-          "<th id=\"basic-aname\">Steps Executed</th>" +
-          "<th id=\"basic-bname\">Steps Passed</th>" +
-          "<th id=\"basic-ename\">Percent Executed</th>" +
-          "<th id=\"basic-gname\">Percent Passed Of Executed</th>" +
-          "</tr></thead><tbody>"
-      txt += "<tr>";
-      for (let i = 0; i < rest_data.issues.length; i++) {
-        let component = ""
-        for (let j = 0; j < rest_data.issues[i].fields.components.length; j++) {
-          if (j > 0 && j < rest_data.issues[i].fields.components.length)
-            component += ", "
-          component += rest_data.issues[i].fields.components[j].name
-        }
-        txt += "<td>" + component + "</td>" +
-            "<td>" + rest_data.issues[i].id + "</td>" +
-            "<td>" + rest_data.issues[i].key + "</td>";
-        txt += "</tr>";
-      }
-
       // Identify the number of completed rest requests
       let completed = 0, hasErrors = false;
       rest_data.issues.forEach(link => {
@@ -51,8 +27,8 @@ function loadDoc() {
           });
         });
       });
-      txt += "</tbody></table>"
-      document.getElementById("dtp_results").innerHTML = txt;
+
+      document.getElementById("dtp_results").innerHTML = DTP.Results.IssueList(rest_data).toString();
     });
   });
 }
@@ -85,8 +61,6 @@ function download(url, txt, callback) {
       console.log(`Top level execution status is ${zapi_data.status[execution.executionStatus].name} for test ${execution.issueKey}`);
 
     });
-
-
     // Identify the number of completed rest requests
     let completed = 0, hasErrors = false;
     zapi_data.executions.forEach(execution => {
@@ -105,12 +79,6 @@ function download(url, txt, callback) {
         });
       });
     });
-
-
-    // txt += "<tr>" +
-    //     "<td>" + zapi_data.issues[i].id + "</td>" +
-    //     "<td>" + zapi_data.issues[i].key + "</td>";
-    // txt += "</tr>";
     return callback();
   });
 }
@@ -125,8 +93,10 @@ function download_steps(url, txt, callback) {
     console.log(`Downloaded and saved: ${url}`);
     console.log(`ZAPI data ${zapi_data}`)
     zapi_data.forEach(execution => {
-      console.log(execution.id);
+      console.log(`execution id = ${execution.id}`);
     });
+    let steps = {executed_steps: zapi_data}
+    document.getElementById("web_item").innerHTML = DTP.Step.Results.StepList(steps).toString()
     return callback();
   });
 }

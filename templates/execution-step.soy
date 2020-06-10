@@ -1,9 +1,9 @@
-{namespace DTP.Results}
+{namespace DTP.Step.Results}
 
 /**
 */
-{template .IssueList}
-    {@param issues: list<[key:string, id:int]>}
+{template .StepList}
+    {@param executed_steps: list<[executedBy:string, stepId:int]>}
     <table class="aui">
         <thead>
         <tr>
@@ -20,17 +20,17 @@
         </tr>
         </thead>
         <tbody>
-            {for $issue in $issues}
+            {for $step in $executed_steps}
             <tr>
                 //                        <td headers="basic-number"><img src="{$issue.fields.issuetype.iconUrl}"/></td>
                 //                        <td headers="basic-fname">{$issue.executionStatus}</td>
-                <td headers="basic-aname">{$issue.key}</td>
-                <td headers="basic-bname">{$issue.id}</td>
-                <td headers="basic-cname">{$issue.key}</td>
-                <td headers="basic-dname">{$issue.id}</td>
-                <td headers="basic-ename">{$issue.key}</td>
-                <td headers="basic-fname">{$issue.id}</td>
-                <td headers="basic-gname">{$issue.key}</td>
+                <td headers="basic-aname">{$step.executedBy}</td>
+                <td headers="basic-bname">{$step.stepId}</td>
+                <td headers="basic-cname">{$step.executedBy}</td>
+                <td headers="basic-dname">{$step.stepId}</td>
+                <td headers="basic-ename">{$step.executedBy}</td>
+                <td headers="basic-fname">{$step.stepId}</td>
+                <td headers="basic-gname">{$step.executedBy}</td>
             </tr>
             {/for}
         </tbody>
